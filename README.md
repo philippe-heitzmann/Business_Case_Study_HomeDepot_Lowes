@@ -14,17 +14,17 @@
 
 ## Questions:
 1. **Perform Exploratory Data Analysis on the stores**
-	1. What are the total store counts of Home Depot and Lowes?
+	1. *What are the total store counts of Home Depot and Lowes?*
 
 	```python
-	reading in our data 
+	#reading in our data 
 	hdlo = pd.read_csv("Home_Depot_Lowes_Data.csv", sep = ',')
 	print('There are a total of {} HDSupply stores in this dataset'.format(np.sum(hdlo.HDcount)))
 	print('There are a total of {} Lowe\'s stores in this dataset'.format(np.sum(hdlo.Lcount)))
 	```
 
-	1. Create one dummy variable for Home Depot and one dummy variable for Lowes
-that identifies whether or not the store is located in each county
+	1. *Create one dummy variable for Home Depot and one dummy variable for Lowes
+that identifies whether or not the store is located in each county*
 
 
 	```python
@@ -32,7 +32,7 @@ that identifies whether or not the store is located in each county
 	hdlo['Lo_dummy'] = (hdlo['Lcount'] > 0) * 1
 	```
 
-	1. Which store is present in more counties?
+	1. *Which store is present in more counties?*
 
 		As can be seen from the below, Lowe's is present in 924 counties while Home Depot is present in 785 counties in the United States 
 
