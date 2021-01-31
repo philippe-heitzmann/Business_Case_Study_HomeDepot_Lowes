@@ -1,4 +1,4 @@
-#Business Case Study - Analyzing and predicting new store locations for Lowe's and Home Depot from available data 
+# Business Case Study - Analyzing and predicting new store locations for Lowe's and Home Depot from available data 
 
 In this case study, we will be put in the shoes of a consultant looking to understand some of the factors that Lowe's and Home Depot look to when deciding to build new stores. We will then use this strategy to advise a new competitor we will call 'Tool Time' on where this new entrant should build its next five stores based on this information on Home Depot and Lowe's.
 
