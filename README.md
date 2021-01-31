@@ -13,16 +13,14 @@
 ## Questions:
 1. **Perform Exploratory Data Analysis on the stores**
 	1. What are the total store counts of Home Depot and Lowes?
-	
 ```python
-#reading in our data 
+reading in our data 
 hdlo = pd.read_csv("Home_Depot_Lowes_Data.csv", sep = ',')
 print('There are a total of {} Lowe\'s stores in this dataset'.format(np.sum(hdlo.Lcount)))
 ```
-
-	1. Create one dummy variable for Home Depot and one dummy variable for Lowes
+		1. Create one dummy variable for Home Depot and one dummy variable for Lowes
 that identifies whether or not the store is located in each county
-	1. Which store is present in more counties?
+		1. Which store is present in more counties?
 
 1. **Use a United States map with FIPS locations to plot the store locations of both Lowes
 and Home Depot**
