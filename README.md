@@ -9,18 +9,22 @@ Questions:
 	b. Create one dummy variable for Home Depot and one dummy variable for Lowes
 that identifies whether or not the store is located in each county
 	c. Which store is present in more counties?
+
 1. Use a United States map with FIPS locations to plot the store locations of both Lowes
 and Home Depot ( if you have trouble creating the map, just skip this for now )
 	a. What observations can you make from the map?
-3. Create a linear regression model to identify the correlations among the variables.
+
+1. Create a linear regression model to identify the correlations among the variables.
 	a. What customer demographic variables are most import to Lowes?
 	b. What customer demographic variables are most import to Home Depot?
 	c. How are the chains similar in their decision making?
 	d. How are they different?
-4. What are the top 5 towns/cities that can be predicted as potential candidates for new
+
+1. What are the top 5 towns/cities that can be predicted as potential candidates for new
 locations for both Lowes and Home Depot?
 	a. Explain the rationale for your decision
-5. Where should “Tool Time” build its next 5 stores based on the Census Data on your
+
+1. Where should “Tool Time” build its next 5 stores based on the Census Data on your
 customers.
 	a. Explain the rationale for your decision
 
