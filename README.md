@@ -1,8 +1,10 @@
 # Business Case Study - Analyzing and predicting new store locations for Lowe's and Home Depot
 
-### In this case study, we will be put in the shoes of a consultant looking to understand some of the factors that Lowe's and Home Depot look to when deciding to build new stores. We will then use this strategy to advise a new competitor we will call 'Tool Time' on where this new entrant should build its next five stores based on this information on Home Depot and Lowe's.
+## Background
 
-##### This case study will be split into the following subsections:
+##### In this case study, we will be put in the shoes of a consultant looking to understand some of the factors that Lowe's and Home Depot look to when deciding to build new stores. We will then use this strategy to advise a new competitor we will call 'Tool Time' on where this new entrant should build its next five stores based on this information on Home Depot and Lowe's.
+
+## Case Study Outline 
 
 1. Exploratory Data Analysis & creating a map of stores
 1. Identifying relationships between variables with linear regression model 
@@ -24,12 +26,15 @@
 	1. Create one dummy variable for Home Depot and one dummy variable for Lowes
 that identifies whether or not the store is located in each county
 
+
 	```python
 	hdlo['HD_dummy'] = (hdlo['HDcount'] > 0) * 1
 	hdlo['Lo_dummy'] = (hdlo['Lcount'] > 0) * 1
 	```
 
 	1. Which store is present in more counties?
+
+		As can be seen from the below, Lowe's is present in 924 counties while Home Depot is present in 785 counties in the United States 
 
 	```python
 	print('Lowe\'s stores are present in {} counties'.format(np.sum(hdlo.Lo_dummy)))
