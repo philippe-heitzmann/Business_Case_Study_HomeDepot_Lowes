@@ -235,8 +235,8 @@ segment the country into the following regions:**
 	1. **Region 4 – West**
 		1. **Arizona, Colorado, Idaho, Montana, Nevada, New Mexico, Utah, and Wyoming, Alaska, California, Hawaii, Oregon, and Washington**
 
-	1. Exploratory Data Analysis for realator.com data
-		1. Which Region of the country has the best “Demand Score”
+	1. **Exploratory Data Analysis for realator.com data**
+		1. **Which Region of the country has the best “Demand Score”**
 
 			```python
 				# Keep only relevant columns from state_region
@@ -248,12 +248,27 @@ segment the country into the following regions:**
 				df1 = rdc.merge(state_region, how = 'left', left_on = 'state', right_on = 'State Code')
 				df1.drop('State Code', axis = 1, inplace = True)
 				df1.groupby('Region')['Demand Score'].mean()
-				```
+			```
 			
-			The Northeast has the best demand score 
+		1. **Which State in the country has the best “Demand Score”**
 
-		1. Which State in the country has the best “Demand Score”
+			```python
+			df1.groupby('state')['Demand Score'].aggregate({'mean'}).sort_values(by = 'mean', ascending = False)[:3]
+			```
+
+			Massachusetts has the best mean "Demand Score."
+
 		1. Which metro area (Pop_2010 > 1million) has the best “Demand Score”
+
+			```python
+			#merging our data from hdlo to extract population for each country
+			hdlo2 = hdlo[['county','pop_2010']]
+			df2 = df1.merge(hdlo2, how = 'inner', left_on = 'CountyFIPS', right_on = 'county')
+			df2[df2.pop_2010 > 1e6][['CountyName', 'state','Demand Score']][:10]
+			```
+
+			Middlesex, MA has the best "Demand Score" of metro areas.
+
 
 
 	1. Compare and contrast these findings with your predicted new store findings.
@@ -261,6 +276,8 @@ segment the country into the following regions:**
 		business opportunity that Lowes, Home Depot and/or Tool Time may have if they
 		are or are not located in the areas that have high demands for real estate
 		opportunities.
+
+			It appears that the Northeast, Texas, Ohio, California, and Florida are all good areas for stores to be loacted, according to "Demand Score." This somewhat agrees with the model predictions; there were a lot of predicted locations in California and the Northeast.
 
 	1. Add the following as features to the original HDLo data set and predict again where Tool
 	Time should build its next 5 stores.
