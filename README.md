@@ -18,12 +18,12 @@
 
 	There are a total of 1706 Lowe's stores and 1952 Home Depot stores in this dataset 
 
-	```python
-	#reading in our data 
-	hdlo = pd.read_csv("Home_Depot_Lowes_Data.csv", sep = ',')
-	print('There are a total of {} HDSupply stores in this dataset'.format(np.sum(hdlo.HDcount)))
-	print('There are a total of {} Lowe\'s stores in this dataset'.format(np.sum(hdlo.Lcount)))
-	```
+		```python
+		#reading in our data 
+		hdlo = pd.read_csv("Home_Depot_Lowes_Data.csv", sep = ',')
+		print('There are a total of {} HDSupply stores in this dataset'.format(np.sum(hdlo.HDcount)))
+		print('There are a total of {} Lowe\'s stores in this dataset'.format(np.sum(hdlo.Lcount)))
+		```
 
 	1. **Create one dummy variable for Home Depot and one dummy variable for Lowes
 that identifies whether or not the store is located in each county**
@@ -93,11 +93,15 @@ and Home Depot**
 	print('Home Depot Regression Coefficients are:', lr1.coef_)
 	lr2 = LinearRegression(normalize=True).fit(lo_data, lo_target)
 	print('Lowe\'s Regression Coefficients are:', lr1.coef_)
+	#showing cross validation scores
+	from sklearn.model_selection import cross_val_score
+	print(cross_val_score(lr1, hd_data, hd_target, cv = 5, n_jobs = -1))
+	print(cross_val_score(lr2, lo_data, lo_target, cv = 5, n_jobs = -1))
 	```
 
 	1. **What customer demographic variables are most import to Lowes?**
 
-	
+
 
 	1. **What customer demographic variables are most import to Home Depot?**
 	1. **How are the chains similar in their decision making?**
