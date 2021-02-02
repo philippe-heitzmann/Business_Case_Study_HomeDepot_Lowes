@@ -258,7 +258,7 @@ segment the country into the following regions:**
 
 			Massachusetts has the best mean "Demand Score."
 
-		1. Which metro area (Pop_2010 > 1million) has the best “Demand Score”
+		1. **Which metro area (Pop_2010 > 1million) has the best “Demand Score”**
 
 			```python
 			#merging our data from hdlo to extract population for each country
@@ -271,27 +271,83 @@ segment the country into the following regions:**
 
 
 
-	1. Compare and contrast these findings with your predicted new store findings.
-		1. Describe your findings as they relate to the customer attributes and potential
+	1. **Compare and contrast these findings with your predicted new store findings.**
+		1. **Describe your findings as they relate to the customer attributes and potential
 		business opportunity that Lowes, Home Depot and/or Tool Time may have if they
 		are or are not located in the areas that have high demands for real estate
-		opportunities.
+		opportunities.**
 
 			It appears that the Northeast, Texas, Ohio, California, and Florida are all good areas for stores to be loacted, according to "Demand Score." This somewhat agrees with the model predictions; there were a lot of predicted locations in California and the Northeast.
 
-	1. Add the following as features to the original HDLo data set and predict again where Tool
-	Time should build its next 5 stores.
+	1. **Add the following as features to the original HDLo data set and predict again where Tool
+	Time should build its next 5 stores.**
 	a. Feature Engineering
 	i. Median.Listing.Price
 	ii. Demand.Score
 	iii. Hotness.Score
 	iv. Nieleson.HH.Rank
 
-	5. What are the top 5 new area names for which Tool Time should build their stores?
-	6. Do these features increase the prediction accuracy for the new area predictions?
-	7. Does overlaying the realtor data set add value to the business strategy of Tool Time?
-	8. Is there an alternative strategy that Tool Time should explore other than Census Data
-	and Realtor data?
+		```python
+		rdc2 = rdc[['CountyFIPS','Nielsen HH Rank','Demand Score','Hotness Score','Median Listing Price']]
+		hd_data = hdlo.merge(rdc2, how = 'inner', left_on = 'county', right_on = 'CountyFIPS')
+		# Copy data into training and testing sets, drop earlier added probability columns along with other irrelevant columns
+		hd_data = hd_data.copy()
+		l_data = hd_data.copy()
+
+		hd_data.drop(['areaname', 'county', 'state', 'r1', 'r2', 'Lcount', 'HDcount', 'Lexists'], axis=1, inplace=True)
+		l_data.drop(['areaname', 'county', 'state', 'r1', 'r2', 'Lcount', 'HDcount', 'HDexists'], axis=1, inplace=True)
+
+		hd_X = hd_data.drop(['HD_dummy'], axis=1)
+		hd_y = hd_data.HD_dummy
+
+		l_X = l_data.drop(['Lo_dumm7'], axis=1)
+		l_y = l_data.Lo_dummy
+
+		# Split the data into train and test portions to test accuracy
+		hd_X_train, hd_X_test, hd_y_train, hd_y_test = train_test_split(hd_X, hd_y, random_state=42)
+		l_X_train, l_X_test, l_y_train, l_y_test = train_test_split(l_X, l_y, random_state=42)
+
+		# Train the models
+		hd_logit = LogisticRegressionCV(Cs=10, cv=5, class_weight='balanced', max_iter=1000, random_state=42).fit(hd_X_train, hd_y_train)
+		l_logit = LogisticRegressionCV(Cs=10, cv=5, class_weight='balanced', max_iter=1000, random_state=42).fit(l_X_train, l_y_train)
+
+		# Home Depot store predicition accuracy
+		hd_logit.score(hd_X_test, hd_y_test)
+
+		# Lowes store predicition accuracy
+		l_logit.score(l_X_test, l_y_test)
+
+		# Train on the full data
+		hd_full_logit = LogisticRegressionCV(Cs=10, cv=5, class_weight='balanced', max_iter=1500, random_state=42).fit(hd_X, hd_y)
+		l_full_logit = LogisticRegressionCV(Cs=10, cv=5, class_weight='balanced', max_iter=1500, random_state=42).fit(l_X, l_y)
+
+		# Predict the target for all locations and extract the probability that a store should be built
+		hd_store_prob = [x[1] for x in hd_full_logit.predict_proba(hd_X)]
+		l_store_prob = [x[1] for x in l_full_logit.predict_proba(l_X)]
+
+		# Add the probability features to the original dataset so we can find the best next locations to build stores
+		added_data['hd_store_prob'] = hd_store_prob
+		added_data['l_store_prob'] = l_store_prob
+
+		# Create new column that is the sum of the two probability columns for sorting purposes
+		added_data['prob_sum'] = added_data.hd_store_prob + added_data.l_store_prob
+
+		# For Tool Time, show only locations where there are 1 or no stores for HD and Lowes,
+		# sort by prob_sum descending and show top 5 areas predicted to be the best store locations
+		added_data[(added_data.Lcount <= 1) & (added_data.HDcount <= 1)].sort_values(by='prob_sum', ascending=False).head(10)
+		```
+
+	5. **What are the top 5 new area names for which Tool Time should build their stores?**
+		The first four stores remain the same, however Ottawa, MI overtook Ingham, MI in this version of the model.
+
+	6. **Do these features increase the prediction accuracy for the new area predictions?**
+		Based on the new scores, the new features seem to have decreased the accuracy of the models.
+	7. **Does overlaying the realtor data set add value to the business strategy of Tool Time?**
+		In this case, I would conclude that adding the new features **does not** add value to the business strategy that I would recommend.
+
+	8. **Is there an alternative strategy that Tool Time should explore other than Census Data
+	and Realtor data?**
+		Tool Time might want to consider areas that have high demand for commerical real estate, as new businesses will have contractors in need of supplies. Tool Time might also want to look into trends for up-and-coming neighborhoods where real estate prices may increase in the future, and get ahead of competitors by opening stores newly desired neighborhoods.
 
 				
 
