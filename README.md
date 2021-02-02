@@ -224,16 +224,59 @@ locations for both Lowes and Home Depot?**
 customers.**
 	1. **Explain the rationale for your decision**
 
-1. Using the realator.com market hotness index report , create an additional variable to
-segment the country into the following regions:
-	1. Region 1 – NorthEast 
-		1. Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont, New Jersey, New York, and Pennsylvania
-	1. Region 2 – MidWest
-		1. Illinois, Indiana, Michigan, Ohio, Wisconsin, Iowa, Kansas, Minnesota, Missouri, Nebraska, North Dakota, and South Dakota
-	1. Region 3 – South
-		1. Delaware, Florida, Georgia, Maryland, North Carolina, South Carolina, Virginia, District of Columbia, and West Virginia, Alabama, Kentucky, Mississippi, Tennessee, Arkansas, Louisiana, Oklahoma, and Texas
-	1. Region 4 – West
-		1. Arizona, Colorado, Idaho, Montana, Nevada, New Mexico, Utah, and Wyoming, Alaska, California, Hawaii, Oregon, and Washington
+1. **Using the realator.com market hotness index report , create an additional variable to
+segment the country into the following regions:**
+	1. **Region 1 – NorthEast** 
+		**1. Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont, New Jersey, New York, and Pennsylvania**
+	1. **Region 2 – MidWest**
+		**1. Illinois, Indiana, Michigan, Ohio, Wisconsin, Iowa, Kansas, Minnesota, Missouri, Nebraska, North Dakota, and South Dakota**
+	1. **Region 3 – South**
+		1. **Delaware, Florida, Georgia, Maryland, North Carolina, South Carolina, Virginia, District of Columbia, and West Virginia, Alabama, Kentucky, Mississippi, Tennessee, Arkansas, Louisiana, Oklahoma, and Texas**
+	1. **Region 4 – West**
+		1. **Arizona, Colorado, Idaho, Montana, Nevada, New Mexico, Utah, and Wyoming, Alaska, California, Hawaii, Oregon, and Washington**
 
+	1. Exploratory Data Analysis for realator.com data
+		1. Which Region of the country has the best “Demand Score”
+
+			```python
+				# Keep only relevant columns from state_region
+				state_region = pd.read_csv('state_region.csv', sep = ',')
+				state_region.drop(['State', 'Division'], axis=1, inplace=True)
+				#reading in our data
+				rdc = pd.read_csv('RDC_MarketHotness_Monthly.csv', sep = ',')
+				rdc['town'], rdc['state'] = rdc['ZipName'].str.split(',').str[0], rdc['ZipName'].str.split(', ').str[1]
+				df1 = rdc.merge(state_region, how = 'left', left_on = 'state', right_on = 'State Code')
+				df1.drop('State Code', axis = 1, inplace = True)
+				df1.groupby('Region')['Demand Score'].mean()
+				```
 			
+			The Northeast has the best demand score 
+
+		1. Which State in the country has the best “Demand Score”
+		1. Which metro area (Pop_2010 > 1million) has the best “Demand Score”
+
+
+	1. Compare and contrast these findings with your predicted new store findings.
+		1. Describe your findings as they relate to the customer attributes and potential
+		business opportunity that Lowes, Home Depot and/or Tool Time may have if they
+		are or are not located in the areas that have high demands for real estate
+		opportunities.
+
+	1. Add the following as features to the original HDLo data set and predict again where Tool
+	Time should build its next 5 stores.
+	a. Feature Engineering
+	i. Median.Listing.Price
+	ii. Demand.Score
+	iii. Hotness.Score
+	iv. Nieleson.HH.Rank
+
+	5. What are the top 5 new area names for which Tool Time should build their stores?
+	6. Do these features increase the prediction accuracy for the new area predictions?
+	7. Does overlaying the realtor data set add value to the business strategy of Tool Time?
+	8. Is there an alternative strategy that Tool Time should explore other than Census Data
+	and Realtor data?
+
+				
+
+
 
