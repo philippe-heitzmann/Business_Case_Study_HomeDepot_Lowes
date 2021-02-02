@@ -224,12 +224,15 @@ locations for both Lowes and Home Depot?**
 customers.**
 	1. **Explain the rationale for your decision**
 
+		Tool Time should build its stores in the above high demand counties returned by our model in which Home Depot and Lowe's are either very little or not at all present in order to maximize customer demographic fit and minimize Home Depot and Lowe's competitive pressur. 
+
+
 1. **Using the realator.com market hotness index report , create an additional variable to
 segment the country into the following regions:**
-	1. **Region 1 – NorthEast** 
-		**1. Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont, New Jersey, New York, and Pennsylvania**
+	1. **Region 1 NorthEast** 
+		1. **Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont, New Jersey, New York, and Pennsylvania**
 	1. **Region 2 – MidWest**
-		**1. Illinois, Indiana, Michigan, Ohio, Wisconsin, Iowa, Kansas, Minnesota, Missouri, Nebraska, North Dakota, and South Dakota**
+		1. **Illinois, Indiana, Michigan, Ohio, Wisconsin, Iowa, Kansas, Minnesota, Missouri, Nebraska, North Dakota, and South Dakota**
 	1. **Region 3 – South**
 		1. **Delaware, Florida, Georgia, Maryland, North Carolina, South Carolina, Virginia, District of Columbia, and West Virginia, Alabama, Kentucky, Mississippi, Tennessee, Arkansas, Louisiana, Oklahoma, and Texas**
 	1. **Region 4 – West**
@@ -281,11 +284,12 @@ segment the country into the following regions:**
 
 	1. **Add the following as features to the original HDLo data set and predict again where Tool
 	Time should build its next 5 stores.**
-	a. Feature Engineering
-	i. Median.Listing.Price
-	ii. Demand.Score
-	iii. Hotness.Score
-	iv. Nieleson.HH.Rank
+	
+		a. Feature Engineering
+		i. Median.Listing.Price
+		ii. Demand.Score
+		iii. Hotness.Score
+		iv. Nieleson.HH.Rank
 
 		```python
 		rdc2 = rdc[['CountyFIPS','Nielsen HH Rank','Demand Score','Hotness Score','Median Listing Price']]
@@ -338,15 +342,20 @@ segment the country into the following regions:**
 		```
 
 	5. **What are the top 5 new area names for which Tool Time should build their stores?**
+
 		The first four stores remain the same, however Ottawa, MI overtook Ingham, MI in this version of the model.
 
 	6. **Do these features increase the prediction accuracy for the new area predictions?**
+
 		Based on the new scores, the new features seem to have decreased the accuracy of the models.
+
 	7. **Does overlaying the realtor data set add value to the business strategy of Tool Time?**
+
 		In this case, I would conclude that adding the new features **does not** add value to the business strategy that I would recommend.
 
 	8. **Is there an alternative strategy that Tool Time should explore other than Census Data
 	and Realtor data?**
+
 		Tool Time might want to consider areas that have high demand for commerical real estate, as new businesses will have contractors in need of supplies. Tool Time might also want to look into trends for up-and-coming neighborhoods where real estate prices may increase in the future, and get ahead of competitors by opening stores newly desired neighborhoods.
 
 				
