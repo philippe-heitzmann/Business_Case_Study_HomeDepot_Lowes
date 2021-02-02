@@ -16,7 +16,7 @@
 1. **Perform Exploratory Data Analysis on the stores**
 	1. **What are the total store counts of Home Depot and Lowes?**
 
-	There are a total of 1706 Lowe's stores and 1952 Home Depot stores in this dataset 
+		There are a total of 1706 Lowe's stores and 1952 Home Depot stores in this dataset 
 
 		```python
 		#reading in our data 
