@@ -1,0 +1,113 @@
+# Business Case Study - Analyzing and predicting new store locations for Lowe's and Home Depot
+
+## Background
+
+##### In this case study, we will be put in the shoes of a consultant looking to understand some of the factors that Lowe's and Home Depot look to when deciding to build new stores. We will then use this strategy to advise a new competitor we will call 'Tool Time' on where this new entrant should build its next five stores based on this information on Home Depot and Lowe's.
+
+## Case Study Outline 
+
+1. **Exploratory Data Analysis & creating a map of stores**
+1. **Identifying relationships between variables with linear regression model**
+1. **Leveraging linear regression model to perform _new store location predictions_ for Lowe's, Home Depot and Tool Time**
+1. **Comparing our results to realtor.com 'market hotness' data** 
+
+
+## Questions:
+1. **Perform Exploratory Data Analysis on the stores**
+	1. **What are the total store counts of Home Depot and Lowes?**
+
+	There are a total of 1706 Lowe's stores and 1952 Home Depot stores in this dataset 
+
+	```python
+	#reading in our data 
+	hdlo = pd.read_csv("Home_Depot_Lowes_Data.csv", sep = ',')
+	print('There are a total of {} HDSupply stores in this dataset'.format(np.sum(hdlo.HDcount)))
+	print('There are a total of {} Lowe\'s stores in this dataset'.format(np.sum(hdlo.Lcount)))
+	```
+
+	1. **Create one dummy variable for Home Depot and one dummy variable for Lowes
+that identifies whether or not the store is located in each county**
+
+		```python
+		hdlo['HD_dummy'] = (hdlo['HDcount'] > 0) * 1
+		hdlo['Lo_dummy'] = (hdlo['Lcount'] > 0) * 1
+		```
+
+	1. **Which store is present in more counties?**
+
+	As can be seen from the below, Lowe's is present in 924 counties while Home Depot is present in 785 counties in the United States 
+
+		```python
+		print('Lowe\'s stores are present in {} counties'.format(np.sum(hdlo.Lo_dummy)))
+		print('HDSupply stores are present in {} counties'.format(np.sum(hdlo.HD_dummy)))
+		print('HDSupply have a presence in a higher number of counties than do Lowe\'s stores')
+		```
+
+1. **Use a United States map with FIPS locations to plot the store locations of both Lowes
+and Home Depot**
+
+	```python
+	import plotly.express as px
+	fig = px.choropleth(hdlo, geojson=counties, locations='county', color='HDcount',
+	                           color_continuous_scale="Viridis",
+	                           range_color=(0, 48),
+	                           scope="usa",
+	                           labels={'HDcount':'Home Depot stores'},
+	                           title = 'Home Depot Stores in the United States')
+	# fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
+	fig.show()
+	#
+	fig = px.choropleth(hdlo, geojson=counties, locations='county', color='Lcount',
+                           color_continuous_scale="Viridis",
+                           range_color=(0, hdlo.Lcount.max()),
+                           scope="usa",
+                           labels={'Lcount':'Lowe\'s stores'},
+                           title = 'Lowe\'s Stores in the United States')
+	fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
+	fig.show()
+	```
+	1. **What observations can you make from the map?**
+
+	There look to be high concentrations of Lowe's and Home Depot stores in metropolis and other high density areas. 
+
+1. **Create a linear regression model to identify the correlations among the variables.**
+		
+	```python
+	#imputing our data
+	hdlo['pct_U18_2000'].fillna(hdlo.pct_U18_2000.mean(), inplace = True)
+	hdlo['pct_U18_2010'].fillna(hdlo.pct_U18_2000.mean(), inplace = True)
+	hdlo['pctwhite_2000'].fillna(hdlo.pct_U18_2000.mean(), inplace = True)
+	hdlo['pctwhite_2010'].fillna(hdlo.pct_U18_2000.mean(), inplace = True)
+	hdlo['pctblack_2000'].fillna(hdlo.pct_U18_2000.mean(), inplace = True)
+	hdlo['pctblack_2010'].fillna(hdlo.pct_U18_2000.mean(), inplace = True)
+	#further cleaning and separating our data 
+	hd_target = hdlo.HDcount
+	lo_target = hdlo.Lcount
+	hd_data = hdlo.copy()
+	lo_data = hdlo.copy()
+	hd_data.drop(['areaname','county','state','r1', 'r2', 'HD_dummy', 'Lo_dummy','HDcount','Lcount'], axis = 1, inplace = True)
+	lo_data.drop(['areaname','county','state','r1', 'r2', 'HD_dummy', 'Lo_dummy','HDcount','Lcount'], axis = 1, inplace = True)
+	#fitting our linear regression model
+	from sklearn.linear_model import LinearRegression
+	lr1 = LinearRegression(normalize=True).fit(hd_data, hd_target)
+	print('Home Depot Regression Coefficients are:', lr1.coef_)
+	lr2 = LinearRegression(normalize=True).fit(lo_data, lo_target)
+	print('Lowe\'s Regression Coefficients are:', lr1.coef_)
+	```
+
+	1. **What customer demographic variables are most import to Lowes?**
+
+	
+
+	1. **What customer demographic variables are most import to Home Depot?**
+	1. **How are the chains similar in their decision making?**
+	1. **How are they different?**
+
+1. **What are the top 5 towns/cities that can be predicted as potential candidates for new
+locations for both Lowes and Home Depot?**
+	1. **Explain the rationale for your decision**
+
+1. **Where should “Tool Time” build its next 5 stores based on the Census Data on your
+customers.**
+	1. **Explain the rationale for your decision**
+
